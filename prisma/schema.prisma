@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -12,7 +12,7 @@ generator client {
 
 
 model User {
-  id        String   @id @default(cuid())
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
   password  String
   name      String?
@@ -23,7 +23,7 @@ model User {
 }
 
 model Product {
-  id          String       @id @default(cuid())
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   image       String
@@ -35,7 +35,7 @@ model Product {
 }
 
 model Tag {
-  id       String       @id @default(cuid())
+  id       String       @id @default(auto()) @map("_id") @db.ObjectId
   name     String
   color    String?
   icon     String?
@@ -43,14 +43,15 @@ model Tag {
 }
 
 model ProductTag {
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   product   Product  @relation(fields: [productId], references: [id])
   productId String
   tag       Tag      @relation(fields: [tagId], references: [id])
   tagId     String
 }
+
 model Order {
-  id        String      @id @default(cuid())
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
   user      User        @relation(fields: [userId], references: [id])
   userId    String
   total     Int
@@ -58,13 +59,15 @@ model Order {
   createdAt DateTime    @default(now())
   items     OrderItem[]
 }
+
 model OrderItem {
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   order     Order    @relation(fields: [orderId], references: [id])
   orderId   String
   product   Product  @relation(fields: [productId], references: [id])
   productId String
   quantity  Int
 }
+
 
 
