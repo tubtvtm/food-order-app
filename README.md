@@ -74,7 +74,7 @@ npm run dev
 ## เว็บไซต์ที่ Deploy แล้ว
 
 🔗 ทดลองใช้งานแอปได้ที่:
-[https://your-project-name.vercel.app](https://your-project-name.vercel.app)  *(เปลี่ยนเป็น URL ของคุณ)*
+[(https://food-web-j7ew-git-main-tubtvtms-projects.vercel.app/)]
 
 ## การดีพลอย
 
@@ -84,10 +84,5 @@ npm run dev
 
 ---
 
-### วิธีใช้
 
-- https://food-web-j7ew-git-main-tubtvtms-projects.vercel.app/
-
-
-```
 
