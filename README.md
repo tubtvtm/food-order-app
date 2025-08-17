@@ -1,41 +1,46 @@
-# Food Order App
+ได้เลยครับ! ผมแปลง README.md ของคุณเป็นภาษาไทย พร้อมเพิ่มส่วนลิงก์เว็บไซต์ที่ deploy แล้วจาก Vercel ให้อัตโนมัติเลยนะครับ:
 
-A modern food ordering application built with Next.js and TypeScript.
+---
 
-## Features
+````md
+# แอปสั่งอาหาร (Food Order App)
 
-- User authentication
-- Interactive food ordering system
-- Shopping cart functionality
-- Multiple payment methods
-- Real-time order tracking
+แอปพลิเคชันสั่งอาหารสมัยใหม่ สร้างด้วย Next.js และ TypeScript
 
-## Tech Stack
+## ฟีเจอร์หลัก
 
-- Next.js 13+ with App Router
+- ระบบยืนยันตัวตนผู้ใช้ (User authentication)
+- ระบบสั่งอาหารแบบโต้ตอบได้ (Interactive food ordering)
+- ฟังก์ชันตะกร้าสินค้า (Shopping cart)
+- รองรับหลายช่องทางการชำระเงิน (Multiple payment methods)
+- ติดตามสถานะคำสั่งซื้อแบบเรียลไทม์ (Real-time order tracking)
+
+## เทคโนโลยีที่ใช้
+
+- Next.js 13+ (App Router)
 - TypeScript
 - Tailwind CSS
 - Framer Motion
 - Firebase Authentication
-- Vercel Deployment
+- การดีพลอยบน Vercel
 
-## Getting Started
+## วิธีเริ่มต้นใช้งาน
 
-1. Clone the repository
+1. โคลนโปรเจกต์นี้
 
 ```bash
 git clone https://github.com/yourusername/food-order-app.git
-```
+````
 
-2. Install dependencies
+2. ติดตั้ง dependencies
 
 ```bash
 cd food-order-app
 npm install
 ```
 
-3. Set up environment variables
-   Create a `.env.local` file with:
+3. ตั้งค่าตัวแปรแวดล้อม
+   สร้างไฟล์ `.env.local` และใส่ข้อมูลดังนี้:
 
 ```
 NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
@@ -43,33 +48,50 @@ NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
 ```
 
-4. Run development server
+4. รันเซิร์ฟเวอร์สำหรับพัฒนา
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด [http://localhost:3000](http://localhost:3000) บนเว็บเบราว์เซอร์ของคุณเพื่อดูผลลัพธ์
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+คุณสามารถแก้ไขไฟล์ `app/page.tsx` เพื่อเปลี่ยนแปลงหน้าแรกได้ ระบบจะอัปเดตให้อัตโนมัติ
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+โปรเจกต์นี้ใช้ [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) เพื่อปรับแต่งและโหลดฟอนต์ [Geist](https://vercel.com/font) ให้เหมาะสมโดยอัตโนมัติ
 
-## Learn More
+## เรียนรู้เพิ่มเติม
 
-To learn more about Next.js, take a look at the following resources:
+หากต้องการเรียนรู้เพิ่มเติมเกี่ยวกับ Next.js สามารถดูได้ที่:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* [เอกสาร Next.js (ภาษาอังกฤษ)](https://nextjs.org/docs) - เรียนรู้ฟีเจอร์และ API ของ Next.js
+* [เรียนรู้ Next.js (ภาษาอังกฤษ)](https://nextjs.org/learn) - แบบฝึกหัด Next.js แบบอินเทอร์แอคทีฟ
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+นอกจากนี้ยังสามารถดู [GitHub repository ของ Next.js](https://github.com/vercel/next.js) เพื่อให้ข้อเสนอแนะหรือมีส่วนร่วมได้
 
-## Deploy on Vercel
+## การดีพลอยบน Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+วิธีที่ง่ายที่สุดในการดีพลอยแอป Next.js คือใช้ [แพลตฟอร์ม Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) จากผู้สร้าง Next.js
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ดูรายละเอียดเพิ่มเติมได้ที่ [เอกสารการดีพลอย Next.js](https://nextjs.org/docs/app/building-your-application/deploying)
 
-## Deployment
+## เว็บไซต์ที่ Deploy แล้ว
 
-The app is automatically deployed to Vercel with each push to the main branch.
+🔗 ทดลองใช้งานแอปได้ที่:
+[https://your-project-name.vercel.app](https://your-project-name.vercel.app)  *(เปลี่ยนเป็น URL ของคุณ)*
+
+## การดีพลอย
+
+แอปนี้จะถูกดีพลอยอัตโนมัติไปยัง Vercel ทุกครั้งที่มีการ push โค้ดไปยัง branch `main`
+
+```
+
+---
+
+### วิธีใช้
+
+- https://food-web-j7ew-git-main-tubtvtms-projects.vercel.app/
+
+
+```
+
