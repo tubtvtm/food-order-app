@@ -1,88 +1,213 @@
+# 🍔 Food Order Web Application
 
-# แอปสั่งอาหาร (Food Order App)
+> A modern, complete food ordering system with real-time order management and beautiful responsive design.
 
-แอปพลิเคชันสั่งอาหารสมัยใหม่ สร้างด้วย Next.js และ TypeScript
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer-Motion-ff69b4?style=flat)](https://www.framer.com/motion/)
 
-## ฟีเจอร์หลัก
+## 🎯 Overview
 
-- ระบบยืนยันตัวตนผู้ใช้ (User authentication)
-- ระบบสั่งอาหารแบบโต้ตอบได้ (Interactive food ordering)
-- ฟังก์ชันตะกร้าสินค้า (Shopping cart)
-- รองรับหลายช่องทางการชำระเงิน (Multiple payment methods)
-- ติดตามสถานะคำสั่งซื้อแบบเรียลไทม์ (Real-time order tracking)
+This is a full-featured food ordering web application that allows customers to browse menu items, customize their orders, and track them in real-time. The admin panel provides comprehensive order management with date filtering and status control.
 
-## เทคโนโลยีที่ใช้
+## ✨ Features
 
-- Next.js 13+ (App Router)
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Firebase Authentication
-- การดีพลอยบน Vercel
+### 👤 Customer Experience
 
-## วิธีเริ่มต้นใช้งาน
+- 🍕 **Multi-Category Menu**: Browse Burgers, Pizzas, and Noodles with detailed customization
+- 🛒 **Smart Shopping Cart**: Add, remove, modify items with real-time price calculation
+- 💳 **Flexible Payment**: Support for PromptPay QR code and Cash on Delivery
+- 📱 **Order Tracking**: Real-time status updates with estimated completion time
+- 📝 **Custom Notes**: Add special requests and dietary preferences
+- 🎨 **Responsive Design**: Seamless experience across all devices
+- 🔔 **Notifications**: Beautiful success messages and confirmations
 
-1. โคลนโปรเจกต์นี้
+### 👨‍💼 Admin Dashboard
 
-```bash
-git clone https://github.com/yourusername/food-order-app.git
-````
+- 📊 **Real-time Analytics**: Live order statistics and pending count
+- 🔄 **Status Management**: Manual order progression through all stages
+- 📅 **Date Filtering**: View today's orders or complete history
+- 👥 **Customer Info**: Full customer details and payment method tracking
+- ⏱️ **Completion Tracking**: Automatic timestamps for completed orders
+- 🎯 **Order Prioritization**: Newest orders displayed first
+- 🔐 **Secure Access**: Password-protected admin panel
 
-2. ติดตั้ง dependencies
+## 🛠️ Tech Stack
 
-```bash
-cd food-order-app
-npm install
+- **Frontend**: Next.js 14 (App Router), TypeScript
+- **Styling**: Tailwind CSS, Framer Motion
+- **UI Components**: Custom responsive components
+- **Notifications**: SweetAlert2
+- **Data Storage**: Local Storage
+- **Icons**: Lucide React
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/tubtvtm/food-web.git
+   cd food-web
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Run the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. **Open in browser**
+   ```
+   http://localhost:3000
+   ```
+
+## 📱 Application Structure
+
+### 🛣️ Routes Overview
+
+| Route           | Description                           | Access                           |
+| --------------- | ------------------------------------- | -------------------------------- |
+| `/`             | 🏠 Main homepage with food categories | Public                           |
+| `/order/burger` | 🍔 Burger customization page          | Public                           |
+| `/order/pizza`  | 🍕 Pizza customization page           | Public                           |
+| `/order/noodle` | 🍜 Noodle customization page          | Public                           |
+| `/payment`      | 💳 Payment processing                 | Public                           |
+| `/orders`       | 📋 Customer order history             | Public                           |
+| `/admin`        | 👨‍💼 Admin panel                        | Protected (Password: `admin123`) |
+
+### 🎛️ Order Status Flow
+
+```
+PENDING → CONFIRMED → PREPARING → READY → DELIVERED
+   ⏳        ✅          👨‍🍳        📦        🚚
 ```
 
-3. ตั้งค่าตัวแปรแวดล้อม
-   สร้างไฟล์ `.env.local` และใส่ข้อมูลดังนี้:
+## 🎯 Order Flow
 
-```
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-```
+1. **Customer selects food** → Customize options
+2. **Add to cart** → Review items
+3. **Checkout** → Choose payment method
+4. **Admin receives order** → Manual status progression
+5. **Real-time updates** → Customer sees progress
+6. **Order completion** → Thank you message with timestamp
 
-4. รันเซิร์ฟเวอร์สำหรับพัฒนา
+## 🔧 Admin Panel
 
-```bash
-npm run dev
-```
+Access the admin panel at `/admin` with password: `admin123`
 
-เปิด [http://localhost:3000](http://localhost:3000) บนเว็บเบราว์เซอร์ของคุณเพื่อดูผลลัพธ์
+### Admin Features:
 
-คุณสามารถแก้ไขไฟล์ `app/page.tsx` เพื่อเปลี่ยนแปลงหน้าแรกได้ ระบบจะอัปเดตให้อัตโนมัติ
+- View all orders in real-time
+- Update order status manually
+- Filter orders by date
+- See customer information
+- Track completion timestamps
 
-โปรเจกต์นี้ใช้ [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) เพื่อปรับแต่งและโหลดฟอนต์ [Geist](https://vercel.com/font) ให้เหมาะสมโดยอัตโนมัติ
+## 📱 Responsive Design
 
-## เรียนรู้เพิ่มเติม
+The application is built mobile-first with:
 
-หากต้องการเรียนรู้เพิ่มเติมเกี่ยวกับ Next.js สามารถดูได้ที่:
+- Adaptive layouts for all screen sizes
+- Touch-friendly interface elements
+- Safe area support for mobile devices
+- Optimized typography and spacing
 
-* [เอกสาร Next.js (ภาษาอังกฤษ)](https://nextjs.org/docs) - เรียนรู้ฟีเจอร์และ API ของ Next.js
-* [เรียนรู้ Next.js (ภาษาอังกฤษ)](https://nextjs.org/learn) - แบบฝึกหัด Next.js แบบอินเทอร์แอคทีฟ
+## 🎨 Design System
 
-นอกจากนี้ยังสามารถดู [GitHub repository ของ Next.js](https://github.com/vercel/next.js) เพื่อให้ข้อเสนอแนะหรือมีส่วนร่วมได้
+- **Colors**: Tailwind CSS color palette
+- **Typography**: Responsive text sizing
+- **Animations**: Framer Motion for smooth transitions
+- **Components**: Reusable, accessible UI components
 
-## การดีพลอยบน Vercel
+## � Screenshots
 
-วิธีที่ง่ายที่สุดในการดีพลอยแอป Next.js คือใช้ [แพลตฟอร์ม Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) จากผู้สร้าง Next.js
+### 🏠 Homepage
 
-ดูรายละเอียดเพิ่มเติมได้ที่ [เอกสารการดีพลอย Next.js](https://nextjs.org/docs/app/building-your-application/deploying)
+Beautiful landing page with food categories and modern design.
 
-## เว็บไซต์ที่ Deploy แล้ว
+### 🍔 Order Customization
 
-🔗 ทดลองใช้งานแอปได้ที่:
-[(https://food-web-j7ew-git-main-tubtvtms-projects.vercel.app/)]
+Detailed customization options for burgers, pizzas, and noodles.
 
-## การดีพลอย
+### 🛒 Shopping Cart
 
-แอปนี้จะถูกดีพลอยอัตโนมัติไปยัง Vercel ทุกครั้งที่มีการ push โค้ดไปยัง branch `main`
+Smart cart with real-time updates and item management.
 
-```
+### 👨‍💼 Admin Dashboard
+
+Comprehensive admin panel with order management and analytics.
+
+## 🎯 Key Highlights
+
+- ⚡ **Lightning Fast**: Built with Next.js 14 and optimized for performance
+- 📱 **Mobile First**: Responsive design that works perfectly on all devices
+- 🎨 **Beautiful UI**: Clean, modern interface with smooth animations
+- 🔄 **Real-time**: Live order updates and status tracking
+- 🛡️ **Type Safe**: Full TypeScript implementation for reliability
+- 🎭 **Animations**: Smooth transitions with Framer Motion
+- 🔒 **Secure**: Protected admin routes and data validation
+
+## 🚀 Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. Fork this repository
+2. Connect your GitHub account to [Vercel](https://vercel.com)
+3. Import the project and deploy automatically
+
+### Deploy to Netlify
+
+1. Fork this repository
+2. Connect to [Netlify](https://netlify.com)
+3. Set build command: `npm run build`
+4. Set publish directory: `out`
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork this repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## �🔄 Future Enhancements
+
+- 🗄️ **Database Integration**: PostgreSQL/MongoDB for persistent data
+- 🔐 **User Authentication**: NextAuth.js for secure user management
+- 📧 **Email Notifications**: Order confirmations and updates
+- 📦 **Inventory Management**: Stock tracking and availability
+- 🌐 **Multi-language**: Support for multiple languages
+- 📊 **Advanced Analytics**: Detailed reporting and insights
+- 🎯 **Push Notifications**: Real-time order updates
+- 💰 **Payment Integration**: Stripe, PayPal integration
+- 🏪 **Multi-vendor**: Support for multiple restaurants
+
+## 📄 License
+
+This project is for educational purposes and demonstration of modern web development practices.
+
+## 👨‍💻 Developer
+
+Created with ❤️ by **tubtvtm**
+
+- GitHub: [@tubtvtm](https://github.com/tubtvtm)
+- Repository: [food-web](https://github.com/tubtvtm/food-web)
 
 ---
 
+**⭐ If you like this project, please give it a star on GitHub! ⭐**
 
-
+Built with Next.js 14 • TypeScript • Tailwind CSS • Framer Motion

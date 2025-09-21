@@ -123,8 +123,41 @@ export default function PaymentPage() {
       text: selectedMethod === 'cod' ? 'คำสั่งซื้อของคุณจะถูกจัดส่งเร็วๆ นี้' : 'ขอบคุณที่ใช้บริการ',
       confirmButtonColor: '#000',
     }).then(() => {
+      // Save order to history
+      const cartItems = JSON.parse(localStorage.getItem('cart') || '[]')
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+      const order = {
+        id: `ORDER-${Date.now()}`,
+        customerEmail: currentUser.email || 'ไม่ระบุ',
+        customerName: currentUser.name || 'ไม่ระบุ',
+        items: cartItems.map((item: any) => ({
+          id: item.id || Math.random().toString(),
+          name: item.name,
+          image: item.image,
+          price: item.price,
+          quantity: item.quantity,
+          details: {
+            ...(item.noodleType && { เส้น: item.noodleType }),
+            ...(item.soup && { น้ำซุป: item.soup }),
+            ...(item.meat && { เนื้อ: item.meat }),
+            ...(item.spice && { ความเผ็ด: item.spice }),
+            ...(item.sides && item.sides.length > 0 && { เครื่องเคียง: item.sides.join(', ') }),
+            ...(item.garnishes && item.garnishes.length > 0 && { เครื่องปรุง: item.garnishes.join(', ') }),
+            ...(item.toppings && item.toppings.length > 0 && { ท็อปปิ้ง: item.toppings.join(', ') })
+          }
+        })),
+        total: totalAmount,
+        status: 'กำลังดำเนินการ',
+        createdAt: new Date().toISOString(),
+        paymentMethod: selectedMethod
+      }
+      
+      const existingOrders = JSON.parse(localStorage.getItem('placedOrders') || '[]')
+      existingOrders.push(order)
+      localStorage.setItem('placedOrders', JSON.stringify(existingOrders))
+
       localStorage.removeItem('cart')
-      router.push('/orders')
+      router.push('/orders?from=payment')
     })
   }
 

@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Swal from 'sweetalert2'
+import { useRouter } from 'next/navigation'
 import burger from './../../menus/burger'
-import CartSidebar from '@/components/CartSidebar'
+import CartSidebar from '@/components/CartSidebarNew'
 
 
 
@@ -12,7 +13,9 @@ export default function BurgerPage() {
     const [user, setUser] = useState<{ email: string } | null>(null)
     const [selectedMeat, setSelectedMeat] = useState<string | null>(null)
     const [quantity, setQuantity] = useState<number>(1)
+    const [notes, setNotes] = useState<string>('')
     const [isCartOpen, setIsCartOpen] = useState(false)
+    const router = useRouter()
     
     useEffect(() => {
       const storedUser = localStorage.getItem('user')
@@ -41,11 +44,13 @@ export default function BurgerPage() {
       }
   
       const cartItem = {
+        id: `burger-${Date.now()}-${Math.random()}`,
         name: burger.name,
         image: burger.image,
         price: burger.price,
         meat: selectedMeat,
         quantity,
+        notes: notes.trim() || undefined,
       }
   
       const cart = JSON.parse(localStorage.getItem('cart') || '[]')
@@ -62,9 +67,27 @@ export default function BurgerPage() {
     }
   
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8 bg-gray-50">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="relative h-72">
+      <div className="min-h-screen py-responsive px-responsive bg-gradient-to-br from-yellow-50 via-white to-orange-50 safe-area-top safe-area-bottom">
+        <div className="container-responsive">
+          {/* Header */}
+          <div className="text-center mb-6 sm:mb-8">
+            <button
+              onClick={() => router.back()}
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-4 transition-colors touch-target"
+            >
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              <span className="text-responsive-sm">กลับ</span>
+            </button>
+            <h1 className="text-responsive-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-2">
+              สั่งเบอร์เกอร์
+            </h1>
+            <p className="text-responsive-sm text-gray-600 px-4">เลือกประเภทเนื้อและจำนวนที่คุณต้องการ</p>
+          </div>
+
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden border border-yellow-100">
+          <div className="relative h-48 sm:h-64 lg:h-72">
             <Image
               src={selectedMeat 
                 ? burger.meatOptions.find(m => m.name === selectedMeat)?.image || burger.image
@@ -75,76 +98,137 @@ export default function BurgerPage() {
             />
             {selectedMeat && (
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-lg font-bold">{selectedMeat}</p>
-                  <p className="text-sm opacity-90">
+                <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 text-white">
+                  <p className="text-responsive-base font-bold">{selectedMeat}</p>
+                  <p className="text-responsive-xs opacity-90">
                     {burger.meatOptions.find(m => m.name === selectedMeat)?.description}
                   </p>
                 </div>
               </div>
             )}
           </div>
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">{burger.name}</h1>
-            <p className="text-gray-600 mb-4">
-              ราคา: <span className="font-semibold">{burger.price} บาท</span>
-            </p>
+          <div className="p-4 sm:p-6">
+            <h1 className="text-responsive-lg font-bold text-gray-800 mb-2">{burger.name}</h1>
+            <div className="bg-gradient-to-r from-yellow-100 to-orange-100 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
+              <div className="text-center">
+                <span className="text-responsive-xs text-gray-600 block">ราคา</span>
+                <span className="text-responsive-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+                  ฿{burger.price}
+                </span>
+              </div>
+            </div>
   
-            <div className="mb-4">
-              <p className="font-semibold mb-1">เลือกประเภทเนื้อ:</p>
-              <div className="grid grid-cols-2 gap-4">
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                <span className="text-responsive-base font-semibold text-gray-800">เลือกประเภทเนื้อ</span>
+                <div className="flex-1 h-px bg-gradient-to-r from-yellow-200 to-transparent"></div>
+              </div>
+              <div className="space-y-3 sm:space-y-4">
                 {burger.meatOptions.map((meat) => (
                   <button
                     key={meat.id}
-                    className={`group p-3 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
+                    className={`group w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all touch-target ${
                       selectedMeat === meat.name 
-                        ? 'border-black ring-2 ring-black ring-offset-2 shadow-lg' 
-                        : 'border-gray-200 hover:border-gray-300 hover:shadow-md'
+                        ? 'border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 shadow-lg' 
+                        : 'border-gray-200 hover:border-yellow-200 hover:bg-yellow-50 hover:shadow-md'
                     }`}
                     onClick={() => setSelectedMeat(meat.name)}
                   >
-                    <div className="aspect-square relative mb-3 rounded-xl overflow-hidden shadow-sm group-hover:shadow">
-                      <Image
-                        src={meat.image}
-                        alt={meat.name}
-                        fill
-                        className="object-cover transform transition-transform group-hover:scale-110"
-                      />
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 relative rounded-lg sm:rounded-xl overflow-hidden shadow-md group-hover:shadow-lg flex-shrink-0">
+                        <Image
+                          src={meat.image}
+                          alt={meat.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 text-left min-w-0">
+                        <p className="text-responsive-base font-bold text-gray-800 mb-1 truncate">{meat.name}</p>
+                        <p className="text-responsive-xs text-gray-600 line-clamp-2">{meat.description}</p>
+                      </div>
+                      {selectedMeat === meat.name && (
+                        <div className="text-yellow-500 text-xl sm:text-2xl flex-shrink-0">✓</div>
+                      )}
                     </div>
-                    <p className="font-semibold text-gray-800 mb-1">{meat.name}</p>
-                    <p className="text-sm text-gray-500 line-clamp-2">{meat.description}</p>
                   </button>
                 ))}
               </div>
             </div>
   
             <div className="mb-6">
-              <p className="font-semibold mb-1">จำนวน:</p>
-              <input
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
-                className="w-full px-3 py-2 border rounded"
-                min={1}
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-responsive-base font-semibold text-gray-800">จำนวน</span>
+                <div className="flex-1 h-px bg-gradient-to-r from-yellow-200 to-transparent"></div>
+              </div>
+              <div className="flex items-center justify-center gap-4 bg-gray-50 rounded-2xl p-4">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-gray-200 to-gray-300 flex items-center justify-center text-gray-700 hover:from-gray-300 hover:to-gray-400 transition-all transform hover:scale-110 touch-target"
+                >
+                  <span className="text-lg font-bold">−</span>
+                </button>
+                <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent min-w-[3rem] text-center">
+                  {quantity}
+                </div>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 flex items-center justify-center text-white hover:from-yellow-500 hover:to-orange-500 transition-all transform hover:scale-110 touch-target"
+                >
+                  <span className="text-lg font-bold">+</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Notes Section */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-responsive-base font-semibold text-gray-800">หมายเหตุ</span>
+                <span className="text-responsive-xs text-gray-500">(ไม่บังคับ)</span>
+                <div className="flex-1 h-px bg-gradient-to-r from-yellow-200 to-transparent"></div>
+              </div>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="เช่น ไม่ใส่หัวหอม, เพิ่มชีสพิเศษ, หรือข้อความอื่นๆ..."
+                className="w-full px-4 py-3 text-responsive-sm bg-gray-50 border border-gray-200 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all placeholder-gray-400"
+                rows={3}
+                maxLength={200}
               />
+              <div className="text-right text-responsive-xs text-gray-400 mt-1">
+                {notes.length}/200 ตัวอักษร
+              </div>
             </div>
   
-            <div className="flex gap-2">
+            {/* Total Price */}
+            <div className="bg-gradient-to-r from-gray-50 to-yellow-50 rounded-2xl p-4 mb-6">
+              <div className="flex justify-between items-center">
+                <span className="text-responsive-base text-gray-600">ยอดรวม</span>
+                <span className="text-responsive-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+                  ฿{burger.price * quantity}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={handleAddToCart}
-                className="w-full py-3 px-4 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition-all"
+                className="flex-1 py-3 sm:py-4 px-4 sm:px-6 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-2xl font-semibold hover:from-yellow-600 hover:to-orange-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl touch-target"
               >
-                เพิ่มลงตะกร้า 🛒
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-responsive-base">เพิ่มลงตะกร้า</span>
+                </div>
               </button>
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="w-full py-3 px-4 bg-white border text-black rounded-lg font-semibold hover:bg-gray-100 transition-all"
+                className="sm:flex-initial py-3 sm:py-4 px-4 sm:px-6 bg-white border-2 border-yellow-200 text-yellow-600 rounded-2xl font-semibold hover:bg-yellow-50 hover:border-yellow-300 transform hover:scale-105 transition-all duration-300 touch-target"
               >
-                ดูตะกร้า
+                <span className="text-responsive-base">ดูตะกร้า</span>
               </button>
             </div>
           </div>
         </div>
+      </div>
 
         <CartSidebar 
           isOpen={isCartOpen}

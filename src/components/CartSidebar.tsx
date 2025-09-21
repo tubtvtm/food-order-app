@@ -115,87 +115,142 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween' }}
-            className="fixed right-0 top-0 h-full w-96 bg-white shadow-xl z-50 overflow-y-auto"
+            className="fixed right-0 top-0 h-full w-80 sm:w-96 bg-white shadow-2xl z-50 overflow-hidden flex flex-col"
           >
-            <div className="p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">🛒 ตะกร้าสินค้า</h2>
-                <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-                  ✕
+            {/* Header */}
+            <div className="bg-gradient-to-r from-rose-500 to-pink-500 text-white p-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-lg font-bold mb-1">ตะกร้าสินค้า</h2>
+                  <p className="text-rose-100 text-sm">{cartItems.length} รายการ</p>
+                </div>
+                <button 
+                  onClick={onClose} 
+                  className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
               </div>
+            </div>
 
               {cartItems.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-gray-500 mb-4">🛒 ไม่มีสินค้าในตะกร้า</p>
-                  <p className="text-sm text-gray-400">กรุณาเลือกสินค้าที่ต้องการสั่งซื้อ</p>
+                <div className="flex flex-col items-center justify-center h-full text-center p-6">
+                  <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5-5M17 18.5a.5.5 0 11-1 0 .5.5 0 011 0zM9 18.5a.5.5 0 11-1 0 .5.5 0 011 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-800 mb-2">ตะกร้าของคุณว่างเปล่า</h3>
+                  <p className="text-gray-500 text-sm">เลือกอาหารอร่อยๆ เพื่อเริ่มสั่งซื้อ</p>
                 </div>
               ) : (
-                <>
-                  <div className="space-y-4">
-                    {cartItems.map((item, index) => (
-                      <div key={index} className="flex gap-3 border-b pb-4">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={80}
-                          height={80}
-                          className="rounded-lg object-cover"
-                        />
-                        <div className="flex-1">
-                          <h3 className="font-semibold">{item.name}</h3>
-                          {item.meat && (
-                            <p className="text-sm text-gray-600">เนื้อ: {item.meat}</p>
-                          )}
-                          {item.noodleType && (
-                            <p className="text-sm text-gray-600">เส้น: {item.noodleType}</p>
-                          )}
-                          {item.soup && (
-                            <p className="text-sm text-gray-600">น้ำซุป: {item.soup}</p>
-                          )}
-                          <div className="flex items-center gap-2 mt-2">
-                            <button
-                              onClick={() => decreaseQuantity(index)}
-                              className="px-2 py-0.5 bg-gray-100 rounded text-gray-600 hover:bg-gray-200"
-                            >
-                              -
-                            </button>
-                            <span className="text-sm">{item.quantity}</span>
-                            <button
-                              onClick={() => increaseQuantity(index)}
-                              className="px-2 py-0.5 bg-gray-100 rounded text-gray-600 hover:bg-gray-200"
-                            >
-                              +
-                            </button>
+                <div className="space-y-3">
+                  {cartItems.map((item, index) => (
+                    <div key={index} className="bg-gray-50 rounded-xl p-3 border border-gray-200">
+                      <div className="flex gap-3">
+                        <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-gray-900 truncate">{item.name}</h3>
+                          
+                          {/* Options */}
+                          <div className="mt-1 space-y-0.5">
+                            {item.meat && (
+                              <div className="flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span>
+                                <span className="text-xs text-gray-600">{item.meat}</span>
+                              </div>
+                            )}
+                            {item.noodleType && (
+                              <div className="flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
+                                <span className="text-xs text-gray-600">{item.noodleType}</span>
+                              </div>
+                            )}
+                            {item.soup && (
+                              <div className="flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                                <span className="text-xs text-gray-600">{item.soup}</span>
+                              </div>
+                            )}
+                            {item.flavor && (
+                              <div className="flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
+                                <span className="text-xs text-gray-600">{item.flavor}</span>
+                              </div>
+                            )}
+                            {item.crust && (
+                              <div className="flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></span>
+                                <span className="text-xs text-gray-600">{item.crust}</span>
+                              </div>
+                            )}
                           </div>
-                          <p className="text-rose-600 mt-1">{item.price * item.quantity} บาท</p>
-                          <button
-                            onClick={() => removeItem(index)}
-                            className="text-xs text-red-500 hover:underline mt-1"
-                          >
-                            ลบ
-                          </button>
+
+                          {/* Price and Quantity */}
+                          <div className="flex items-center justify-between mt-2">
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => decreaseQuantity(index)}
+                                className="w-7 h-7 bg-white border border-gray-300 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                              >
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                </svg>
+                              </button>
+                              <span className="text-sm font-medium min-w-[20px] text-center">{item.quantity}</span>
+                              <button
+                                onClick={() => increaseQuantity(index)}
+                                className="w-7 h-7 bg-white border border-gray-300 rounded-lg flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                              >
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                              </button>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-sm font-semibold text-rose-600">฿{item.price * item.quantity}</p>
+                              <button
+                                onClick={() => removeItem(index)}
+                                className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+                              >
+                                ลบออก
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 border-t pt-4">
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="font-semibold">รวมทั้งหมด</span>
-                      <span className="font-bold text-rose-600">{totalPrice} บาท</span>
                     </div>
-
-                    <button
-                      onClick={handleCheckout}
-                      className="w-full py-3 px-4 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition-all"
-                    >
-                      ไปชำระเงิน 💳
-                    </button>
-                  </div>
-                </>
+                  ))}
+                </div>
               )}
             </div>
+
+            {/* Footer - Total & Checkout */}
+            {cartItems.length > 0 && (
+              <div className="border-t border-gray-200 bg-white p-4">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">รวมทั้งหมด</span>
+                    <span className="text-xl font-bold text-gray-900">฿{totalPrice}</span>
+                  </div>
+                  <button
+                    onClick={handleCheckout}
+                    className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all transform hover:scale-[1.02] shadow-lg"
+                  >
+                    ดำเนินการชำระเงิน
+                  </button>
+                </div>
+              </div>
+            )}
           </motion.div>
         </>
       )}
