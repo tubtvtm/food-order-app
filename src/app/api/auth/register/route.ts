@@ -4,45 +4,61 @@ import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password } = await req.json();
+    const body = await req.json();
+    const { name, email, password } = body;
 
-    console.log('📝 Register attempt:', { name, email, hasPassword: !!password });
+    console.log('📝 Register attempt:', { 
+      name: name || 'undefined', 
+      email: email || 'undefined', 
+      hasPassword: !!password,
+      bodyKeys: Object.keys(body)
+    });
 
-    // 🔒 ตรวจสอบข้อมูลทั้งหมด
-    if (!name || !email || !password) {
+    // 🔒 ตรวจสอบข้อมูลที่จำเป็น (name ไม่บังคับ)
+    if (!email || !password) {
+      console.log('❌ Missing required fields');
       return NextResponse.json(
-        { error: "กรุณากรอกข้อมูลให้ครบถ้วน" },
+        { error: "กรุณากรอกอีเมลและรหัสผ่าน" },
         { status: 400 }
       );
     }
 
+    // ใช้ email เป็น name ถ้าไม่มี name
+    const userName = name || email.split('@')[0] || 'User';
+    console.log('👤 Using userName:', userName);
+
     if (password.length < 6) {
+      console.log('❌ Password too short:', password.length);
       return NextResponse.json(
         { error: "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร" },
         { status: 400 }
       );
     }
 
+    console.log('✅ Validation passed, checking existing user...');
+
     // ตรวจสอบว่ามี email นี้แล้วหรือไม่
     try {
       const userExists = await prisma.user.findUnique({ where: { email } });
       if (userExists) {
+        console.log('❌ Email already exists');
         return NextResponse.json(
           { error: "อีเมลนี้ถูกใช้งานแล้ว" },
           { status: 400 }
         );
       }
-    } catch (dbError) {
+    } catch (error) {
       console.log('⚠️ Database check failed, proceeding with registration...');
     }
 
+    console.log('✅ Creating new user...');
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // สร้าง user ใหม่
     try {
       const newUser = await prisma.user.create({
         data: {
-          name,
+          name: userName,
           email,
           password: hashedPassword,
         },
