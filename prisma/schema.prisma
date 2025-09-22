@@ -25,33 +25,27 @@ model User {
 
 model Order {
   id            String      @id @default(cuid())
-  userId        String
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items         Json
+  userId        String      @map("user_id")
+  customerEmail String      @map("customer_email")
+  customerName  String      @map("customer_name")
+  items         Json        // เก็บ items เป็น JSON
   total         Float
   status        OrderStatus @default(PENDING)
-  paymentMethod String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
+  paymentMethod String      @map("payment_method")
+  customerNote  String?     @map("customer_note")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  
+  // relation กับ User
+  user          User        @relation(fields: [userId], references: [id])
+  
   @@map("orders")
 }
 
 enum OrderStatus {
   PENDING
-  CONFIRMED
+  CONFIRMED  
   PREPARING
   READY
   DELIVERED
-  CANCELLED
-}
-
-model ResetToken {
-  id        String   @id @default(cuid())
-  token     String   @unique
-  email     String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-
-  @@map("reset_tokens")
 }

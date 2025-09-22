@@ -166,12 +166,28 @@ export default function AdminPanel() {
     })
   }
 
-  const updateOrderStatus = (orderId: string, newStatus: 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'DELIVERED') => {
+  const updateOrderStatus = async (orderId: string, newStatus: 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'DELIVERED') => {
+    try {
+      // อัปเดตใน database
+      const response = await fetch('/api/orders', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: orderId, status: newStatus })
+      });
+
+      if (response.ok) {
+        // รีโหลดข้อมูลจาก database
+        loadOrders();
+        return;
+      }
+    } catch (error) {
+      console.error('Failed to update order in database:', error);
+    }
+
+    // Fallback to localStorage update
     const updatedOrders = orders.map(order => 
       order.id === orderId 
         ? { 
-            ...order, 
-            status: newStatus as 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'READY' | 'DELIVERED', 
             ...order, 
             status: newStatus,
             estimatedTime: newStatus === 'PREPARING' ? 15 : undefined,
